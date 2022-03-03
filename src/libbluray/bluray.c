@@ -3994,6 +3994,13 @@ struct mpls_pl *bd_read_mpls(const char *mpls_file)
     return mpls_parse(mpls_file);
 }
 
+struct mpls_pl *bd_get_title_mpls(BLURAY *bd)
+{
+    if (bd != NULL && bd->title != NULL && bd->title->pl != NULL)
+        return bd->title->pl;
+    return NULL;
+}
+
 void bd_free_mpls(struct mpls_pl *pl)
 {
     mpls_free(&pl);
@@ -4017,4 +4024,69 @@ struct bdjo_data *bd_read_bdjo(const char *bdjo_file)
 void bd_free_bdjo(struct bdjo_data *obj)
 {
     bdjo_free(&obj);
+}
+
+/**
+ * Open clip file
+ *
+ * @param bd  BLURAY object
+ * @param file  name of a clip (relative to BDMV\STREAM folder)
+ * @return the bd_file_s struct if succes or nullptr otherwise
+ */
+struct bd_file_s* bd_clip_open(BLURAY *bd, const char *file)
+{
+	struct bd_file_s* fp = NULL;
+	bd_mutex_lock(&bd->mutex);
+	fp = disc_open_stream(bd->disc, file);
+	bd_mutex_unlock(&bd->mutex);
+
+	return fp;
+}
+
+/**
+ *  Seek to pos in opened file
+ *
+ * @param file  bd_file_s struct
+ * @param offset  number of bytes to offset from origin
+ * @param origin  position used as reference for the offset
+ * @return current seek position
+ */
+int64_t bd_clip_seek(struct bd_file_s* file, int64_t offset, int32_t origin)
+{
+	return file_seek(file, offset, origin);
+}
+
+/**
+ *  Read from opened file
+ *
+ * @param file  bd_file_s struct
+ * @param buf  pointer to a block of memory with a size of bytes
+ * @param size  size, in bytes, to be read.
+ * @return current position
+ */
+int64_t bd_clip_read(struct bd_file_s* file, uint8_t *buf, uint64_t size)
+{
+	file_read(file, buf, size);
+}
+
+/**
+ *  Get size of opened file
+ *
+ * @param file  bd_file_s struct
+ * @return size of file
+ */
+int64_t bd_clip_size(struct bd_file_s* file)
+{
+	return file_size(file);
+}
+
+/**
+ *  Close the file
+ *
+ * @param file  bd_file_s struct
+ * @return size of file
+ */
+void bd_clip_close(struct bd_file_s* file)
+{
+	file_close(file);
 }

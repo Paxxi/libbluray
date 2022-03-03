@@ -260,6 +260,8 @@ install(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/libbluray/player_settings.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/util/log_control.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/libbluray/bdnav/meta_data.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/libbluray/bdnav/mpls_data.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/libbluray/bdnav/uo_mask_table.h
   DESTINATION include/libbluray)
 
 install(FILES
