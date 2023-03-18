@@ -21,6 +21,7 @@ EXPORTS
        bd_get_playlist_info
        bd_get_sound_effect
        bd_get_title_info
+       bd_get_title_mpls
        bd_get_title_size
        bd_get_titles
        bd_get_version
@@ -66,3 +67,8 @@ EXPORTS
        bd_tell
        bd_tell_time
        bd_user_input
+       bd_clip_open
+       bd_clip_read
+       bd_clip_seek
+       bd_clip_size
+       bd_clip_close
